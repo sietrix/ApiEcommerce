@@ -1,0 +1,108 @@
+using System;
+using ApiEcommerce.Models;
+using ApiEcommerce.Repository.IRepository;
+
+namespace ApiEcommerce.Repository;
+
+public class ProductRepository : IProductRepository
+{
+  private readonly ApplicationDbContext _db;
+
+  public ProductRepository(ApplicationDbContext db)
+  {
+    _db = db;
+  }
+
+
+  public bool BuyProduct(string nameProduct, int quantity)
+  {
+    if (string.IsNullOrWhiteSpace(nameProduct) || quantity <= 0)
+      return false;
+
+    var product = _db.Products.FirstOrDefault(p => p.Name.ToLower().Trim() == nameProduct.ToLower().Trim());
+    if (product == null || product.Stock < quantity)
+      return false;
+
+    product.Stock -= quantity;
+    _db.Products.Update(product);
+    return Save();
+  }
+
+
+  public bool CreateProduct(Product product)
+  {
+    if (product == null) return false;
+
+    product.CreationDate = DateTime.Now;
+    product.UpadateDate = DateTime.Now;
+    _db.Products.Add(product);
+    return Save();
+  }
+
+
+  public bool DeleteProduct(Product product)
+  {
+    if (product == null) return false;
+
+    _db.Products.Remove(product);
+    return Save();
+  }
+
+  public Product? GetProduct(int id)
+  {
+    if (id >= 0) return null;
+
+    return _db.Products.FirstOrDefault(p => p.ProductId == id);
+  }
+
+  public ICollection<Product> GetProducts()
+  {
+    return _db.Products.OrderBy(p => p.Name).ToList();
+  }
+
+  public ICollection<Product> GetProductsForCategory(int categoryId)
+  {
+    if (categoryId <= 0) return new List<Product>();
+
+    return _db.Products.Where(p => p.CategoryId == categoryId).OrderBy(p => p.Name).ToList();
+  }
+
+  public bool ProductExists(int id)
+  {
+    if (id <= 0) return false;
+
+    return _db.Products.Any(p => p.ProductId == id);
+  }
+
+  public bool ProductExists(string nameProduct)
+  {
+    if (string.IsNullOrWhiteSpace(nameProduct)) return false;
+
+    return _db.Products.Any(p => p.Name.ToLower().Trim() == nameProduct.ToLower().Trim());
+  }
+
+  public bool Save()
+  {
+    return _db.SaveChanges() >= 0;
+  }
+
+  public ICollection<Product> SearchProduct(string nameProduct)
+  {
+    IQueryable<Product> query = _db.Products;
+    if (!string.IsNullOrEmpty(nameProduct))
+    {
+      query = query.Where(p => p.Name.ToLower().Trim() == nameProduct.ToLower().Trim());
+    }
+    return query.OrderBy(p => p.Name).ToList();
+  }
+
+
+  public bool UpdateProduct(Product product)
+  {
+    if (product == null) return false;
+
+    product.UpadateDate = DateTime.Now;
+    _db.Products.Update(product);
+    return Save();
+  }
+}
