@@ -58,7 +58,7 @@ public class ProductRepository : IProductRepository
 
   public ICollection<Product> GetProducts()
   {
-    return _db.Products.OrderBy(p => p.Name).ToList();
+    return _db.Products.Include(p => p.Category).OrderBy(p => p.Name).ToList();
   }
 
   public ICollection<Product> GetProductsForCategory(int categoryId)

@@ -36,6 +36,7 @@ if (app.Environment.IsDevelopment()) {
    app.UseSwaggerUI(); 
 }
 Así debería funcionar.
----------------------------------------------------
-
+-------------------------- Git -------------------------
+Para dejar de seguir una carpeta en Git que ya se seguia
+git rm -r --cached nombre_de_tu_carpeta
 
