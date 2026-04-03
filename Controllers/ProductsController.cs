@@ -144,7 +144,7 @@ namespace ApiEcommerce.Controllers
         }
 
 
-         [HttpPut("productId:int", Name = "UpdateProduct")]
+        [HttpPut("productId:int", Name = "UpdateProduct")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -173,6 +173,32 @@ namespace ApiEcommerce.Controllers
             if (!_productRepository.UpdateProduct(product))
             {
                 ModelState.AddModelError("CustomError", $"Algo salío mal al actulizar el registro {product.Name}");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+
+
+        [HttpDelete("{productId:int}", Name = "DeleteProduct")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult DeleteProduct(int productId)
+        {
+
+            if (productId == 0)
+                return BadRequest(ModelState);
+
+            var product = _productRepository.GetProduct(productId);
+            if (product == null)
+                return NotFound($"La producto con el id {productId} no existe");
+
+            if (!_productRepository.DeleteProduct(product))
+            {
+                ModelState.AddModelError("CustomError", $"Algo salío mal al eliminar el registro {product.Name}");
                 return StatusCode(500, ModelState);
             }
 
