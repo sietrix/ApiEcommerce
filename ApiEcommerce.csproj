@@ -31,8 +31,6 @@
   <ItemGroup>
     <Folder Include="Controllers/" />
     <Folder Include="Mapping/" />
-    <Folder Include="Models\" />
-    <Folder Include="Models\Dtos\" />
     <Folder Include="Repository\" />
     <Folder Include="Repository\IRepository\" />
     <Folder Include="Data\" />

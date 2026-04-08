@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace ApiEcommerce.Models;
+namespace ApiEcommerce.Models.Dtos;
 
-public class User
+public class UserDto
 {
-  [Key]
   public int Id { get; set; }
   public string? Name { get; set; }
   public string? Username { get; set; }
