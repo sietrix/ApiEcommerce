@@ -7,7 +7,7 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 
 
 
-
+## Dev
 ---------------- Entity Framework Core ------------------
 https://learn.microsoft.com/es-es/ef/core/
 Introducción a las relaciones https://learn.microsoft.com/es-mx/ef/core/modeling/relationships
@@ -21,7 +21,9 @@ Actualizar bbdd con las migraciones pendientes --> dotnet ef database update
 
 
 ------------------------ Swagger ------------------------
-Sí, parece que Swagger no viene instalado por defecto, en este caso puedes instalarlo manualmente, por lo que tienes que ejecutar los siguientes pasos:
+Sí, parece que Swagger no viene instalado por defecto, 
+en este caso puedes instalarlo manualmente, 
+por lo que tienes que ejecutar los siguientes pasos:
 
 1. Ejecutar dotnet add package Swashbuckle.AspNetCore para instalarlo.
 
@@ -36,6 +38,7 @@ if (app.Environment.IsDevelopment()) {
    app.UseSwaggerUI(); 
 }
 Así debería funcionar.
+
 -------------------------- Git -------------------------
 Para dejar de seguir una carpeta en Git que ya se seguia
 git rm -r --cached nombre_de_tu_carpeta
