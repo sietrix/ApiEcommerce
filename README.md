@@ -43,3 +43,7 @@ Así debería funcionar.
 Para dejar de seguir una carpeta en Git que ya se seguia
 git rm -r --cached nombre_de_tu_carpeta
 
+## instalar paquetes NuGet
+BCrypt.Net-Next -> https://www.nuget.org/packages/BCrypt.Net-Next
+https://github.com/BcryptNet/bcrypt.net
+
