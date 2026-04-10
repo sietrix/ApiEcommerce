@@ -91,7 +91,7 @@ public class UseRepository : IUserRepository
                                                   SecurityAlgorithms.HmacSha256Signature)
     };
 
-    var token = handlerToken.CreatnToken(tokenDescriptor);
+    var token = handlerToken.CreateToken(tokenDescriptor);
 
     return new UserLoginResponseDto()
     {
