@@ -10,12 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ApiEcommerce.Repository;
 
-public class UseRepository : IUserRepository
+public class UserRepository : IUserRepository
 {
   public readonly ApplicationDbContext _db;
   private string? _secretKey;
 
-  public UseRepository(ApplicationDbContext db, IConfiguration configuration)
+  public UserRepository(ApplicationDbContext db, IConfiguration configuration)
   {
     _db = db;
     _secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
