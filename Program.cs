@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ApiEcommerce.Constants;
 using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -36,7 +37,7 @@ builder.Services.AddSwaggerGen();
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy(PolicyName.AllowSpecificOrigin,
     builder =>
     {
         builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
@@ -75,7 +76,7 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
 
 app.UseHttpsRedirection();
 // middleware CORS
-app.UseCors("AllowSpecificOrigin");
+app.UseCors(PolicyName.AllowSpecificOrigin);
 
 app.MapControllers();
 

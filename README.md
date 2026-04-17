@@ -8,6 +8,11 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 
 
 ## Dev
+# instalar
+Descargar .NET --> https://dotnet.microsoft.com/es-es/download
+Docker Desktop --> https://www.docker.com/products/docker-desktop/
+
+
 ---------------- Entity Framework Core ------------------
 https://learn.microsoft.com/es-es/ef/core/
 Introducción a las relaciones https://learn.microsoft.com/es-mx/ef/core/modeling/relationships
