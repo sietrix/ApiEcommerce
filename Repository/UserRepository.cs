@@ -99,7 +99,8 @@ public class UserRepository : IUserRepository
       User = new UserRegisterDto()
       {
         Username = user.Username,
-        Name = user.Role,
+        Name = user.Name,
+        Role = user.Role,
         Password = user.Password ?? ""
       },
       Message = "Login correcto"
