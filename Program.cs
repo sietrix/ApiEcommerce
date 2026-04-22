@@ -5,6 +5,7 @@ using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -19,6 +20,13 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 // Add services to the container.
 var dbConnectionString = builder.Configuration.GetConnectionString("ConexionSql");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
+
+builder.Services.AddResponseCaching(options =>
+{
+    options.MaximumBodySize = 1024 * 1024; // 1024 * 1024 = 1MByte
+    options.UseCaseSensitivePaths = true;
+});
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -60,40 +68,55 @@ builder.Services.AddAuthentication(options =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddControllers();
+builder.Services.AddControllers(option =>
+{
+    // Versión a pelo
+    //option.CacheProfiles.Add("Default10", new CacheProfile()
+    // {
+    //     Duration = 10
+    // });
+    //option.CacheProfiles.Add("Default20", new CacheProfile()
+    // {
+    //     Duration = 20
+    // });
+
+    // Vesión con clase de constantes (CacheProfiles)
+    option.CacheProfiles.Add(CacheProfiles.Default10, CacheProfiles.Profile10);
+    option.CacheProfiles.Add(CacheProfiles.Default20, CacheProfiles.Profile20);
+});
 // ------------- SwaggerGen -------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
-    options =>
-    {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Description = "Nuestra API utiliza la Autenticación JWT usando el esquema Bearer. \n\r\n\r" +
-                        "Ingresa la palabra a continuación el token generado en login.\n\r\n\r" +
-                        "Ejemplo: \"12345abcdef\"",
-            Name = "Authorization",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http,
-            Scheme = "Bearer"
-        });
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
-    {
-        new OpenApiSecurityScheme
-        {
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        },
-        Scheme = "oauth2",
-        Name = "Bearer",
-        In = ParameterLocation.Header
-        },
-        new List<string>()
-    }
-    });
-    }
+// options =>
+// {
+//     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//     {
+//         Description = "Nuestra API utiliza la Autenticación JWT usando el esquema Bearer. \n\r\n\r" +
+//                     "Ingresa la palabra a continuación el token generado en login.\n\r\n\r" +
+//                     "Ejemplo: \"12345abcdef\"",
+//         Name = "Authorization",
+//         In = ParameterLocation.Header,
+//         Type = SecuritySchemeType.Http,
+//         Scheme = "Bearer"
+//     });
+//     options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+// {
+// {
+//     new OpenApiSecurityScheme
+//     {
+//     Reference = new OpenApiReference
+//     {
+//         Type = ReferenceType.SecurityScheme,
+//         Id = "Bearer"
+//     },
+//     Scheme = "oauth2",
+//     Name = "Bearer",
+//     In = ParameterLocation.Header
+//     },
+//     new List<string>()
+// }
+// });
+// }
 );
 
 // CORS
@@ -139,6 +162,9 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
 app.UseHttpsRedirection();
 // middleware CORS
 app.UseCors(PolicyName.AllowSpecificOrigin);
+
+app.UseResponseCaching();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
