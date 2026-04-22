@@ -1,9 +1,12 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using ApiEcommerce.Constants;
 using ApiEcommerce.Repository;
 using ApiEcommerce.Repository.IRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -19,12 +22,39 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-//AutoMapper
-//builder.Services.AddAutoMapper(typeof(Program).Assembly);
+// AutoMapper
+// builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddAutoMapper(cfg =>
 {
     // Escanea todos los perfiles en el ensamblado de Program
     cfg.AddMaps(typeof(Program).Assembly);
+});
+
+
+// JWT
+var secretKey = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new InvalidOperationException("SecretKey no está configurada");
+}
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // false - desactiva Https
+    options.SaveToken = true; // guarda el token en el contesto de la autenticación
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,  // que este firmado con una clave valida
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),  // establecemos la clave secreta
+        ValidateIssuer = false,  // false - no se valida el emisor del token
+        ValidateAudience = false  // false - no se va a valida el publico del token
+    };
+
+
 });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -77,6 +107,7 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
 app.UseHttpsRedirection();
 // middleware CORS
 app.UseCors(PolicyName.AllowSpecificOrigin);
+app.UseAuthentication();
 
 app.MapControllers();
 

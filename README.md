@@ -4,13 +4,17 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 
 
 
-
-
-
 ## Dev
 # instalar
-Descargar .NET --> https://dotnet.microsoft.com/es-es/download
-Docker Desktop --> https://www.docker.com/products/docker-desktop/
+1.Descargar .NET --> https://dotnet.microsoft.com/es-es/download
+2.Docker Desktop --> https://www.docker.com/products/docker-desktop/
+3.Instalar  Entity Framework --> dotnet tool install --global dotnet-ef
+4.Instalar paquete Design (tambien se puede mediante Nuget)
+   --> dotnet add package Microsoft.EntityFrameworkCore.Design
+5.Migraciones de Entity Framework
+   5.1 dotnet ef migrations add InitialMigration (añadimos migraciones sin actualizar la bd como un commit)
+   5.2 dotnet ef database update (Actualizar bbdd con las migraciones pendientes)
+
 
 
 ---------------- Entity Framework Core ------------------
@@ -52,3 +56,22 @@ git rm -r --cached nombre_de_tu_carpeta
 BCrypt.Net-Next -> https://www.nuget.org/packages/BCrypt.Net-Next
 https://github.com/BcryptNet/bcrypt.net
 
+
+
+
+---------------- SQL SERVER (no me ha funcionado) --------------
+Modificar un ID específico (Update directo)
+Si necesitas cambiar el valor de un ID en una fila particular, 
+debes desactivar temporalmente la restricción IDENTIT
+
+-- 1. Permitir insertar valores explícitos en la columna identidad
+SET IDENTITY_INSERT NombreTabla ON;
+
+-- 2. Realizar el update
+UPDATE NombreTabla
+SET ID = NuevoID
+WHERE ID = IDActual;
+
+-- 3. Desactivar la inserción explícita
+SET IDENTITY_INSERT NombreTabla OFF;
+------------------------------------------------
