@@ -108,6 +108,7 @@ app.UseHttpsRedirection();
 // middleware CORS
 app.UseCors(PolicyName.AllowSpecificOrigin);
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

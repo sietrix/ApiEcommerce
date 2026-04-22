@@ -14,6 +14,8 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 5.Migraciones de Entity Framework
    5.1 dotnet ef migrations add InitialMigration (añadimos migraciones sin actualizar la bd como un commit)
    5.2 dotnet ef database update (Actualizar bbdd con las migraciones pendientes)
+6. Instalar Nuget --> Microsoft.AspNetCore.Authentication.JwtBearer
+7. 
 
 
 
