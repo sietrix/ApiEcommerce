@@ -1,0 +1,219 @@
+{
+  "info": {
+    "_postman_id": "d9a56463-cee1-4d0f-9c04-a080691d5d4f",
+    "name": "API-Ecommerce",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43201519"
+  },
+  "item": [
+    {
+      "name": "Categorías",
+      "item": [
+        {
+          "name": "Listado de categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5281/api/Categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener una categoria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5281/api/Categories/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Categories",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear una categoria",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJ1c2VybmFtZSI6ImRldmktMjAyOSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTc3NjUxMzY4OCwiZXhwIjoxNzc2NTIwODg4LCJpYXQiOjE3NzY1MTM2ODh9.aBqILrajYFgfniby-kk9ZhEYgKZoOzOm1Y9zMqln3zQ",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\":\"Tecnologia\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5281/api/Categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Borrar una categoría",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Tecnologia\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5281/api/Categories/15",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Categories",
+                "15"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar una categoría",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Tecnologia\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5281/api/Categories/3002",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Categories",
+                "3002"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Creación de usuario",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"devi-2029\",\r\n  \"name\": \"Devi develop\",\r\n  \"password\": \"12346\",\r\n  \"role\": \"Admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5281/api/Users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"devi-2029\",\r\n  \"password\": \"12346\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5281/api/Users/Login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5281",
+              "path": [
+                "api",
+                "Users",
+                "Login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
