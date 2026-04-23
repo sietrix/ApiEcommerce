@@ -6,16 +6,18 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 
 ## Dev
 # instalar
-1.Descargar .NET --> https://dotnet.microsoft.com/es-es/download
-2.Docker Desktop --> https://www.docker.com/products/docker-desktop/
-3.Instalar  Entity Framework --> dotnet tool install --global dotnet-ef
-4.Instalar paquete Design (tambien se puede mediante Nuget)
+1. Descargar .NET --> https://dotnet.microsoft.com/es-es/download
+2. Docker Desktop --> https://www.docker.com/products/docker-desktop/
+3. Instalar  Entity Framework --> dotnet tool install --global dotnet-ef
+4. Instalar paquete Design (tambien se puede mediante Nuget)
    --> dotnet add package Microsoft.EntityFrameworkCore.Design
-5.Migraciones de Entity Framework
+5. Migraciones de Entity Framework
    5.1 dotnet ef migrations add InitialMigration (añadimos migraciones sin actualizar la bd como un commit)
    5.2 dotnet ef database update (Actualizar bbdd con las migraciones pendientes)
 6. Instalar Nuget --> Microsoft.AspNetCore.Authentication.JwtBearer
-7. 
+7. Instalar Nuget --> Asp.Versioning.Mvc
+8. Instalar Nuget --> Asp.Versioning.Mvc.ApiExplorer
+9. 
 
 
 
