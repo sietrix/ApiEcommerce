@@ -120,6 +120,21 @@ builder.Services.AddSwaggerGen(
 // }
 );
 
+
+// versiones de APIs
+var apiVersioningBuilder = builder.Services.AddApiVersioning(option =>
+{
+    option.AssumeDefaultVersionWhenUnspecified = true;
+    option.DefaultApiVersion = new ApiVersion(1, 0);
+    option.ReportApiVersions = true;
+    option.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version")); // ?api-version
+});
+apiVersioningBuilder.AddApiExplorer(option =>
+{
+    option.GroupNameFormat = "'v'VVV"; // v1, v2, v3 ...
+    option.SubstituteApiVersionInUrl = true;  // api/v{version}/produts
+});
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -162,19 +177,6 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
 
 app.UseHttpsRedirection();
 
-// versiones de APIs
-var apiVersioningBuilder = builder.Services.AddApiVersioning(option =>
-{
-    option.AssumeDefaultVersionWhenUnspecified = true;
-    option.DefaultApiVersion = new ApiVersion(1, 0);
-    option.ReportApiVersions = true;
-    option.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version")); // ?api-version
-});
-apiVersioningBuilder.AddApiExplorer(option =>
-{
-    option.GroupNameFormat = "'v'VVV"; // v1, v2, v3 ...
-    option.SubstituteApiVersionInUrl = true;  // api/v{version}/produts
-});
 
 // middleware CORS
 app.UseCors(PolicyName.AllowSpecificOrigin);
