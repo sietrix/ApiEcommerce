@@ -9,9 +9,9 @@ using Microsoft.VisualBasic;
 
 namespace ApiEcommerce.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize(Roles = "Admin")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;

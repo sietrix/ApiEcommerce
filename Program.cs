@@ -127,7 +127,7 @@ var apiVersioningBuilder = builder.Services.AddApiVersioning(option =>
     option.AssumeDefaultVersionWhenUnspecified = true;
     option.DefaultApiVersion = new ApiVersion(1, 0);
     option.ReportApiVersions = true;
-    option.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version")); // ?api-version
+    // option.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version")); // ?api-version
 });
 apiVersioningBuilder.AddApiExplorer(option =>
 {
@@ -154,6 +154,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 Todo[] sampleTodos =
 [
