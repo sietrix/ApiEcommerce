@@ -87,38 +87,45 @@ builder.Services.AddControllers(option =>
 });
 // ------------- SwaggerGen -------------
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(
-options =>
+builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Nuestra API utiliza la Autenticación JWT usando el esquema Bearer. \n\r\n\r" +
-                    "Ingresa la palabra a continuación el token generado en login.\n\r\n\r" +
-                    "Ejemplo: \"12345abcdef\"",
+                      "Ingresa la palabra a continuación el token generado en login.\n\r\n\r" +
+                      "Ejemplo: \"12345abcdef\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer"
     });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-{
-{
-    new OpenApiSecurityScheme
+    options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
     {
-    Reference = new OpenApiReference
+        {
+            new OpenApiSecuritySchemeReference("Bearer"),
+            new List<string>()
+        }
+    });
+
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Type = ReferenceType.SecurityScheme,
-        Id = "Bearer"
-    },
-    Scheme = "oauth2",
-    Name = "Bearer",
-    In = ParameterLocation.Header
-    },
-    new List<string>()
-}
+        Version = "v1",
+        Title = "API Ecommerce",
+        Description = "API para gestionar productos y usuarios",
+        TermsOfService = new Uri("http://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "DevTalles",
+            Url = new Uri("https://devtalles.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Licencia de uso",
+            Url = new Uri("http://example.com/license")
+        }
+    });
+
 });
-}
-);
 
 
 // versiones de APIs
@@ -152,7 +159,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     // ------------- SwaggerGen -------------
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options => {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    });
 }
 
 
