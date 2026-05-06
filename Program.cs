@@ -6,6 +6,7 @@ using ApiEcommerce.Repository.IRepository;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -40,6 +41,9 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddMaps(typeof(Program).Assembly);
 });
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 // JWT
 var secretKey = builder.Configuration.GetValue<string>("ApiSettings:SecretKey");
