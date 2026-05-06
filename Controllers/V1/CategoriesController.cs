@@ -8,14 +8,13 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiEcommerce.Controllers
+namespace ApiEcommerce.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    //[EnableCors(PolicyName.AllowSpecificOrigin)] // esto se aplca a nivel de clase
+    //[EnableCors(PolicyName.AllowSpecificOrigin)] // esto se aplica a nivel de clase
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -31,7 +30,7 @@ namespace ApiEcommerce.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [MapToApiVersion("1.0")]
+        [Obsolete("Este método está obsoleto. Use GetCategoriesOrderById de la V2 en su lugar")]
         public IActionResult GetCategories()
         {
             var categories = _categoryRepository.GetCategories();
@@ -44,22 +43,6 @@ namespace ApiEcommerce.Controllers
             return Ok(categoriesDto);
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [MapToApiVersion("2.0")]
-        public IActionResult GetCategoriesOrderById()
-        {
-            var categories = _categoryRepository.GetCategories().OrderBy(cat => cat.Id);
-            var categoriesDto = new List<CategoryDto>();
-
-            foreach (var category in categories)
-            {
-                categoriesDto.Add(_mapper.Map<CategoryDto>(category));
-            }
-            return Ok(categoriesDto);
-        }
 
         [AllowAnonymous]
         [HttpGet("{id:int}", Name = "GetCategory")]

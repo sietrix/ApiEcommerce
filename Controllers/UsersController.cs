@@ -1,5 +1,6 @@
 using ApiEcommerce.Models.Dtos;
 using ApiEcommerce.Repository.IRepository;
+using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ namespace ApiEcommerce.Controllers
     [Authorize(Roles = "Admin")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersionNeutral]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
