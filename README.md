@@ -28,14 +28,14 @@ Introducción a las relaciones https://learn.microsoft.com/es-mx/ef/core/modelin
 https://learn.microsoft.com/es-es/ef/core/cli/dotnet#update-the-tools
 Use dotnet tool update --global dotnet-ef para actualizar las herramientas globales a la versión más reciente disponible. Si tiene instaladas las herramientas localmente en el proyecto, use dotnet tool update dotnet-ef. Para instalar una versión específica, anexe --version <VERSION> al comando. Vea la sección Actualización de la documentación de la herramienta dotnet para obtener más detalles.
 
+Actualizar herraminta --> dotnet tool update --global dotnet-ef
 
 Comandos de terminar para Entity Framework Core
 Añadir tabla nueva --> dotnet ef migrations add CreateTableProduct
 Eliminar la ultima migración --> dotnet ef migrations remove
 ---------------------------------------------------
-Actualizar bbdd con las migraciones pendientes --> dotnet ef database update
+*Actualizar bbdd con las migraciones pendientes --> dotnet ef database update
 ---------------------------------------------------
-
 
 ------------------------ Swagger ------------------------
 Sí, parece que Swagger no viene instalado por defecto, 

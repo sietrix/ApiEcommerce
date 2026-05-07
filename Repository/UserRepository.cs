@@ -5,6 +5,8 @@ using System.Text;
 using ApiEcommerce.Models;
 using ApiEcommerce.Models.Dtos;
 using ApiEcommerce.Repository.IRepository;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,11 +16,18 @@ public class UserRepository : IUserRepository
 {
   public readonly ApplicationDbContext _db;
   private string? _secretKey;
+  private readonly UserManager<ApplicationUser> _userManager;
+  private readonly RoleManager<IdentityRole> _roleManager;
+  private readonly IMapper _mapper;
 
-  public UserRepository(ApplicationDbContext db, IConfiguration configuration)
+  public UserRepository(ApplicationDbContext db, IConfiguration configuration,
+    UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
   {
     _db = db;
     _secretKey = configuration.GetValue<string>("ApiSettings:SecretKey");
+    _userManager = userManager;
+    _roleManager = roleManager;
+    _mapper = mapper;
   }
   public User? GetUser(int id)
   {
@@ -47,7 +56,7 @@ public class UserRepository : IUserRepository
       };
     }
 
-    var user = await _db.Users.FirstOrDefaultAsync<User>(u => u.Username.ToLower().Trim() == userLoginDto.Username.ToLower().Trim());
+    var user = await _db.ApplicationUsers.FirstOrDefaultAsync<ApplicationUser>(u => u.UserName != null && u.UserName.ToLower().Trim() == userLoginDto.Username.ToLower().Trim());
     if (user == null)
     {
       return new UserLoginResponseDto()
@@ -58,13 +67,25 @@ public class UserRepository : IUserRepository
       };
     }
 
-    if (!BCrypt.Net.BCrypt.Verify(userLoginDto.Password, user.Password))
+    if(userLoginDto.Password == null)
+    {
+       return new UserLoginResponseDto()
+      {
+        Token = "",
+        User = null,
+        Message = "Password requerido"
+      };
+    }
+
+    bool isValid = await _userManager.CheckPasswordAsync(user, userLoginDto.Password);
+
+    if (!isValid)
     {
       return new UserLoginResponseDto()
       {
         Token = "",
         User = null,
-        Message = "Password incorrecto"
+        Message = "Credenciales son incorrectas"
       };
     }
 
@@ -76,6 +97,8 @@ public class UserRepository : IUserRepository
       throw new InvalidOperationException("Secretkey no está cofigurada");
     }
 
+    var roles = await _userManager.GetRolesAsync(user);
+
     var key = Encoding.UTF8.GetBytes(_secretKey);
 
     var tokenDescriptor = new SecurityTokenDescriptor
@@ -83,8 +106,8 @@ public class UserRepository : IUserRepository
       Subject = new ClaimsIdentity(new[]
       {
         new Claim("id", user.Id.ToString()),
-        new Claim("username", user.Username),
-        new Claim(ClaimTypes.Role, user.Role ?? string.Empty),
+        new Claim("username", user.UserName ?? string.Empty),
+        new Claim(ClaimTypes.Role, roles.FirstOrDefault() ?? string.Empty),
       }),
       Expires = DateTime.UtcNow.AddHours(2),
       SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
@@ -96,13 +119,7 @@ public class UserRepository : IUserRepository
     return new UserLoginResponseDto()
     {
       Token = handlerToken.WriteToken(token),
-      User = new UserRegisterDto()
-      {
-        Username = user.Username,
-        Name = user.Name,
-        Role = user.Role,
-        Password = user.Password ?? ""
-      },
+      User = _mapper.Map<UserDataDto>(user),
       Message = "Login correcto"
     };
   }
