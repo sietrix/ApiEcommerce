@@ -25,6 +25,10 @@ https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-f
 https://learn.microsoft.com/es-es/ef/core/
 Introducción a las relaciones https://learn.microsoft.com/es-mx/ef/core/modeling/relationships
 
+https://learn.microsoft.com/es-es/ef/core/cli/dotnet#update-the-tools
+Use dotnet tool update --global dotnet-ef para actualizar las herramientas globales a la versión más reciente disponible. Si tiene instaladas las herramientas localmente en el proyecto, use dotnet tool update dotnet-ef. Para instalar una versión específica, anexe --version <VERSION> al comando. Vea la sección Actualización de la documentación de la herramienta dotnet para obtener más detalles.
+
+
 Comandos de terminar para Entity Framework Core
 Añadir tabla nueva --> dotnet ef migrations add CreateTableProduct
 Eliminar la ultima migración --> dotnet ef migrations remove
