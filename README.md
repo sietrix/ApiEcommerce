@@ -90,3 +90,10 @@ Alta usuario con Identity
   "password": "Devi123456*",
   "role": "Admin"
 }
+
+{
+  "username": "jose-admin",
+  "name": "Jose",
+  "password": "Jose123456*",
+  "role": "Admin"
+}
