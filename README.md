@@ -83,3 +83,10 @@ WHERE ID = IDActual;
 -- 3. Desactivar la inserción explícita
 SET IDENTITY_INSERT NombreTabla OFF;
 ------------------------------------------------
+Alta usuario con Identity
+{
+  "username": "devi-admin",
+  "name": "Devi",
+  "password": "Devi123456*",
+  "role": "Admin"
+}
