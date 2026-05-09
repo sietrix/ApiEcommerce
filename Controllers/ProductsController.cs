@@ -60,7 +60,7 @@ namespace ApiEcommerce.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateProduct([FromBody] CreateProductDto createProductDto)
+        public IActionResult CreateProduct([FromForm] CreateProductDto createProductDto)
         {
             if (createProductDto == null)
                 return BadRequest(ModelState);
