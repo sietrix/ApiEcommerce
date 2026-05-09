@@ -209,6 +209,7 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
         : TypedResults.NotFound())
     .WithName("GetTodoById");
 
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

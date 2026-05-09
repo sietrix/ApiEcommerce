@@ -108,7 +108,9 @@ namespace ApiEcommerce.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImgUrl")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgUrlLocal")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
