@@ -33,6 +33,7 @@ Actualizar herraminta --> dotnet tool update --global dotnet-ef
 Comandos de terminar para Entity Framework Core
 Añadir tabla nueva --> dotnet ef migrations add CreateTableProduct
 Eliminar la ultima migración --> dotnet ef migrations remove
+Eliminar la BBDD --> dotnet ef database drop y luego --> dotnet ef database update
 ---------------------------------------------------
 *Actualizar bbdd con las migraciones pendientes --> dotnet ef database update
 ---------------------------------------------------
