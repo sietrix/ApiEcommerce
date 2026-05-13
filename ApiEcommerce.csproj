@@ -37,6 +37,7 @@
     <Folder Include="Constants\" />
     <Folder Include="Controllers/" />
     <Folder Include="Mapping/" />
+    <Folder Include="Models\Dtos\Responses\" />
     <Folder Include="Repository\IRepository\" />
     <Folder Include="Data\" />
   </ItemGroup>
